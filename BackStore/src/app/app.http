@@ -1,6 +1,60 @@
-@app_HostAddress = http://localhost:5192
+@app_HostAddress = http://localhost:80/api/products
 
-GET {{app_HostAddress}}/weatherforecast/
+POST http://localhost:80/api/products
+Content-Type: application/json
 Accept: application/json
 
+{
+  "title": "New Product1",
+  "price": 99.99,
+  "description": "A marvelous product",
+  "category": "Others",
+  "image": "https://example.com/image.jpg",
+  "rating": {
+    "rate": 4.7,
+    "count": 15
+  }
+}
+
 ###
+PUT  http://localhost/api/products/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 1,
+  "title": "Updated Product Title atualizado",
+  "price": 150.00,
+  "description": "Updated desWcription",
+  "category": "New Category",
+  "image": "https://example.com/new-image.jpg",
+  "rating": {
+    "rate": 4.9,
+    "count": 20
+  }
+}
+
+###
+GET http://localhost:80/api/products/1
+Content-Type: application/json
+Accept: application/json
+###
+GET http://localhost:80/api/products?_page=1&_size=10&_order=price desc,title asc
+Content-Type: application/json
+Accept: application/json
+###
+
+###
+
+GET http://localhost:80/api/products/categories
+###
+GET http://localhost:80/api/products/category/Others
+###
+DELETE  http://localhost:80/api/products/1
+Content-Type: application/json
+Accept: application/json
+###
+GET http://localhost/hello
+Content-Type: application/json
+Accept: application/json
+

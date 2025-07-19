@@ -17,6 +17,20 @@ services:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     expose:
       - 3306
+
+  postgres:
+    image: postgres:15
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+
   proxy:
     build: proxy
     ports:
@@ -25,6 +39,7 @@ services:
       - backend
 volumes:
   db-data:
+  pgdata:
 secrets:
   db-password:
     file: db/password.txt
