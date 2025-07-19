@@ -22,7 +22,7 @@
             "name": "Debug .NET",
             "type": "coreclr",
             "request": "launch",
-            "program": "${workspaceFolder}/back-store/bin/Debug/net9.0/back-store.dll",
+            "program": "${workspaceFolder}/BackStore/src/app/bin/Debug/net9.0/back-store.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
