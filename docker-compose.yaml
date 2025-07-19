@@ -20,7 +20,7 @@ services:
   proxy:
     build: proxy
     ports:
-      - 8080:80
+      - 8083:81
     depends_on:
       - backend
 volumes:
