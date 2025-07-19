@@ -26,3 +26,57 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore publishing output
+publish/
+
+# Ignore NuGet packages
+*.nupkg
+*.snupkg
+
+# Ignore the .vs folder (for Visual Studio, can be optional for VSCode)
+.vscode/
+
+# Ignore lock files
+package-lock.json
+paket.lock
+
+# Ignore local configuration files
+appsettings.*.json
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.temp
+
+# Ignore coverage reports (coverage tools)
+coverage/
+*.coverage
+
+# Ignore VSCode settings (if you want)
+.vscode/
+
+# Ignore local secrets or environment variables
+*.env
+
+# Ignore Docker files if necessary
+Dockerfile
+docker-compose*.yaml
+
+# Non-compiled code
+*.dll
+*.pdb
+*.mdb
+
+# Ignore other user-specific or system files
+.DS_Store
+Thumbs.db
