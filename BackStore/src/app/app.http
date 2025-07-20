@@ -86,27 +86,35 @@ Accept: application/json
 }
   ]
 }
+
+###
+GET http://localhost:80/api/cart?_page=1&_size=10&_order=date asc
+
 ###
 GET http://localhost:80/api/cart/8
 ###
 
-PUT http://localhost:80/api/carts/1
+PUT http://localhost:80/api/cart/18
 Content-Type: application/json
 Accept: application/json
 
+
 {
-  "id": 1,
-  "userId": 123,
-  "date": "2025-07-20T00:00:00Z",
+    "id": 18,
+  "date": "2025-07-19",
   "products": [
-    {
-      "productId": 1,
-      "quantity": 3
-    },
-    {
-      "productId": 6,
-      "quantity": 2
-    }
+{
+  "id": 6,
+  "title": "Updated Product Tsitle atualizado",
+  "price": 150.00,
+  "description": "Updated desWcription",
+  "category": "New Category",
+  "image": "https://example.com/new-image.jpg",
+  "rating": {
+    "rate": 4.9,
+    "count": 20
+  }
+}
   ]
 }
 
