@@ -1,5 +1,19 @@
 namespace MyApi.Models 
 {
+
+      public class LoginRequest
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class AuthResponse
+    {
+        public string Token { get; set; }
+        // You might add other user details here, e.g., Username, Roles
+        public string Username { get; set; }
+    }
+    
     public class User
     {
         public int Id { get; set; }

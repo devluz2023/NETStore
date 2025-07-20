@@ -51,14 +51,35 @@ GET http://localhost:80/api/products/categories
 GET http://localhost:80/api/products/category/Others
 ###
 DELETE  http://localhost:80/api/products/1
-Content-Type: application/json
-Accept: application/json
-###
-GET http://localhost/hello
+
 Content-Type: application/json
 Accept: application/json
 
 ###
+POST http://localhost/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username": "john_doe",
+  "password": "password123"
+}
+
+
+###
+GET http://localhost/hello/public
+Content-Type: application/json
+Accept: application/json
+
+###
+
+GET http://localhost/hello/protected
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJqb2huX2RvZSIsIm5iZiI6MTc1MzAyMDM5MiwiZXhwIjoxNzUzMDIzOTkyLCJpYXQiOjE3NTMwMjAzOTIsImlzcyI6Ik15QXBpSXNzdWVyIiwiYXVkIjoiTXlBcGlBdWRpZW5jZSJ9.qSPcZ9uYpSFG1OggvPmQDA1VGsNuzGcXLp2IwgTSG0U
+
+###
+
 GET http://localhost:80/api/carts?_page=1&_size=10&_order=id desc,userId asc
 Content-Type: application/json
 Accept: application/json
