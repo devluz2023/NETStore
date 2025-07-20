@@ -7,17 +7,32 @@ namespace MyApi.Data
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<User> Users { get; set; }
+        // public DbSet<Cart> Carts { get; set; }
+        // public DbSet<CartProduct> CartProducts { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>().OwnsOne(u => u.Name);
+            modelBuilder.Entity<User>().OwnsOne(u => u.Address, a =>
+            {
+                a.OwnsOne(ad => ad.Geolocation);
+            });
+
             // Specify Rating as an owned entity of Product
             modelBuilder.Entity<Product>().OwnsOne(p => p.Rating);
+            // modelBuilder.Entity<Cart>()
+            //   .HasMany(c => c.Products)
+            //   .WithOne(cp => cp.Cart)
+            //   .HasForeignKey(cp => cp.CartId);
         }
 
         // Add other DbSets here as needed
     }
-    
-    
+
+
 }

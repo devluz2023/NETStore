@@ -23,6 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+
+
 app.UseHttpsRedirection();
 
 // map attribute-routed controllers

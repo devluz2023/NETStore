@@ -58,3 +58,119 @@ GET http://localhost/hello
 Content-Type: application/json
 Accept: application/json
 
+###
+GET http://localhost:80/api/carts?_page=1&_size=10&_order=id desc,userId asc
+Content-Type: application/json
+Accept: application/json
+
+###
+POST http://localhost:80/api/carts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": 123,
+  "date": "2025-07-19",
+  "products": [
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+ 
+  ]
+}
+
+###
+PUT http://localhost:80/api/carts/1
+Content-Type: application/json
+Accept: application/json
+{
+  "id": 1,
+  "userId": 123,
+  "date": "2025-07-20T00:00:00Z",
+  "products": [
+    {
+      "productId": 1,
+      "quantity": 3
+    },
+    {
+      "productId": 6,
+      "quantity": 2
+    }
+  ]
+}
+
+###
+DELETE http://localhost:80/api/carts/1
+{
+  "message": "Cart deleted successfully"
+}
+
+####
+POST http://localhost:80/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "john@example.com",
+  "username": "john_doe",
+  "password": "password123",
+  "name": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "address": {
+    "city": "CityX",
+    "street": "Main St",
+    "number": 100,
+    "zipcode": "12345",
+    "geolocation": {
+      "lat": "0.00",
+      "long": "0.00"
+    }
+  },
+  "phone": "555-0000",
+  
+  "status": "Active",
+  "role": "Customer"
+}
+
+###
+PUT http://localhost:80/api/users/1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "id": 1,
+  "email": "john@example.com",
+  "username": "john_doe",
+  "password": "password123",
+  "name": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "address": {
+    "city": "CityX",
+    "street": "Main St",
+    "number": 100,
+    "zipcode": "12345",
+    "geolocation": {
+      "lat": "0.00",
+      "long": "0.00"
+    }
+  },
+  "phone": "555-0000",
+  
+  "status": "Active",
+  "role": "Customer"
+}
+
+####
+GET http://localhost:80/api/users/1
+
+
+###
+GET http://localhost:80/api/users?_page=1&_size=10&_order=username asc
+
+###
+DELETE http://localhost:80/api/users/1

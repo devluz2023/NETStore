@@ -1,4 +1,4 @@
-namespace MyApi.Models // Replace 'MyApi' with your actual namespace
+namespace MyApi.Models 
 {
     public class Product
     {
