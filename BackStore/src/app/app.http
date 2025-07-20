@@ -5,9 +5,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "title": "New Product1",
+  "title": "New Produc2t12",
   "price": 99.99,
-  "description": "A marvelous product",
+  "description": "A marvelous prod22uct",
   "category": "Others",
   "image": "https://example.com/image.jpg",
   "rating": {
@@ -64,26 +64,36 @@ Content-Type: application/json
 Accept: application/json
 
 ###
-POST http://localhost:80/api/carts
+POST http://localhost:80/api/cart
 Content-Type: application/json
 Accept: application/json
 
 {
-  "userId": 123,
+    
   "date": "2025-07-19",
   "products": [
-    {
-      "productId": 1,
-      "quantity": 2
-    }
- 
+{
+  "id": 6,
+  "title": "Updated Product Title atualizado",
+  "price": 150.00,
+  "description": "Updated desWcription",
+  "category": "New Category",
+  "image": "https://example.com/new-image.jpg",
+  "rating": {
+    "rate": 4.9,
+    "count": 20
+  }
+}
   ]
 }
-
 ###
+GET http://localhost:80/api/cart/8
+###
+
 PUT http://localhost:80/api/carts/1
 Content-Type: application/json
 Accept: application/json
+
 {
   "id": 1,
   "userId": 123,
@@ -101,7 +111,8 @@ Accept: application/json
 }
 
 ###
-DELETE http://localhost:80/api/carts/1
+DELETE http://localhost:80/api/cart/6
+
 {
   "message": "Cart deleted successfully"
 }

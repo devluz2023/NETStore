@@ -8,7 +8,7 @@ namespace MyApi.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
-        // public DbSet<Cart> Carts { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         // public DbSet<CartProduct> CartProducts { get; set; }
 
 
@@ -25,10 +25,13 @@ namespace MyApi.Data
 
             // Specify Rating as an owned entity of Product
             modelBuilder.Entity<Product>().OwnsOne(p => p.Rating);
-            // modelBuilder.Entity<Cart>()
-            //   .HasMany(c => c.Products)
-            //   .WithOne(cp => cp.Cart)
-            //   .HasForeignKey(cp => cp.CartId);
+            
+
+
+ modelBuilder.Entity<Product>()
+                .HasOne(p => p.Cart)       // Product has one Cart
+                .WithMany(c => c.Products) // Cart has many Products
+                .HasForeignKey(p => p.CartId); 
         }
 
         // Add other DbSets here as needed

@@ -1,4 +1,6 @@
-namespace MyApi.Models 
+using System.Text.Json.Serialization; // Make sure this using statement is present!
+
+namespace MyApi.Models
 {
     public class Product
     {
@@ -9,6 +11,12 @@ namespace MyApi.Models
         public string Category { get; set; }
         public string Image { get; set; }
         public Rating Rating { get; set; }
+
+
+        public int? CartId { get; set; }
+
+        [JsonIgnore] // <--- THIS IS CRUCIAL: Add this attribute!
+        public Cart? Cart { get; set; }
     }
 
 
