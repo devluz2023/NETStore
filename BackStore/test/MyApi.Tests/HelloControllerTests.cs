@@ -10,9 +10,9 @@ public class HelloControllerTests
         var controller = new HelloController();
 
         // Act
-        var result = controller.Get();
+        var result = controller.GetPublic();
 
         // Assert
-        Assert.Equal("Hello Worl1d 2", result);
+        Assert.Equal("Hello World 2 - This is a PUBLIC endpoint!", result);
     }
 }
