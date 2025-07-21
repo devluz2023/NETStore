@@ -1,6 +1,20 @@
- <main>
- <nav>
-    <li><a routerLink="/products">Products</a></li>
-    <li><a routerLink="/add">Add Product</a></li>
-  </nav>
-</main> 
+<nav class="navbar navbar-expand-lg">
+   <div class="container">
+      <a class="navbar-brand" href="#">Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav ms-auto">
+
+            <li class="nav-item"><a class="nav-link" routerLink="/add">Adicionar produtos</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/products">Listar Produtos</a></li>
+
+            <li class="nav-item">
+               <a class="nav-link" (click)="onLogout()">Logout</a>
+            </li>
+         </ul>
+      </div>
+   </div>
+</nav>

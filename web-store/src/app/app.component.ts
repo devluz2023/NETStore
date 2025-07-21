@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common'; // Needed for standalone components
 import { AuthService } from './services/auth.service';
+import { LayoutComponent } from './components/layout/layout.component'; // <--- Import your LayoutComponent
 
 
 @Component({
