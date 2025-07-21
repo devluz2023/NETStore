@@ -1,1 +1,30 @@
-<p>product-list workdds!</p>
+<h2>Listado de Productos</h2>
+<table *ngIf="products.length > 0; else noData">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td>{{product.id}}</td>
+            <td>{{product.title}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.category}}</td>
+            <td>
+                <button (click)="editProduct(product)">Edit</button>
+                <button (click)="deleteProduct(product)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #noData>
+    <p>No hay productos para mostrar.</p>
+</ng-template>
