@@ -1,0 +1,35 @@
+<h2>Listado de Usuarios</h2>
+
+<table *ngIf="Users.length > 0; else noData" border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Usuario</th>
+      <th>Nombre</th>
+      <th>Teléfono</th>
+      <th>Estado</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of Users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.name.firstname }} {{ user.name.lastname }}</td>
+      <td>{{ user.phone }}</td>
+      <td>{{ user.status }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button (click)="editUser(user)">Editar</button>
+        <button (click)="deleteUser(user)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #noData>
+  <p>No hay usuarios para mostrar.</p>
+</ng-template>
