@@ -9,7 +9,7 @@ import { User } from '../../services/User';
 @Component({
   selector: 'app-login',
   standalone: true,
-  // No need for HttpClientModule here anymore as it's provided by AuthService
+
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']

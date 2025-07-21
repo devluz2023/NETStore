@@ -4,11 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
-// Assuming you have a User interface defined somewhere
+
 interface User {
   id: number;
   username: string;
-  // ... any other user properties your API returns
+
 }
 
 @Injectable({

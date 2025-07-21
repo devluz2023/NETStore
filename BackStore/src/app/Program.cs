@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(80);  // Listen on port 80
+    options.ListenAnyIP(80); 
 });
 
 builder.Services.AddCors(options =>
@@ -20,10 +20,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp",
         builder =>
         {
-            builder.WithOrigins("http://localhost:4200") // Specify the origin of your Angular app
-                   .AllowAnyHeader()                     // Allow all headers
-                   .AllowAnyMethod();                    // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
-        });
+            builder.WithOrigins("http://localhost:4200") 
+                   .AllowAnyHeader()                    
+                   .AllowAnyMethod();                   
 });
 
 
@@ -41,7 +40,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; // Set to true in production
+    options.RequireHttpsMetadata = false; 
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -51,19 +50,18 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtSettings["Issuer"],
         ValidateAudience = true,
         ValidAudience = jwtSettings["Audience"],
-        ValidateLifetime = true, // Validate token expiration
-        ClockSkew = TimeSpan.Zero // No leeway for expiration
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero 
     };
 });
 
-// Add Authorization services
+
 builder.Services.AddAuthorization();
 
-// Register custom services
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 
-// register controllers
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -76,11 +74,11 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAngularApp"); // Apply the CORS policy you defined
+app.UseCors("AllowAngularApp"); 
 
 app.UseAuthentication();
 app.UseAuthorization();
-// map attribute-routed controllers
+
 app.MapControllers();
 
 app.Run();
