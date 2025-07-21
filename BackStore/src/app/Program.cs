@@ -15,6 +15,17 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ListenAnyIP(80);  // Listen on port 80
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200") // Specify the origin of your Angular app
+                   .AllowAnyHeader()                     // Allow all headers
+                   .AllowAnyMethod();                    // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+        });
+});
+
 
 
 builder.Services.AddDbContext<MyDbContext>(options =>
@@ -65,6 +76,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngularApp"); // Apply the CORS policy you defined
+
 app.UseAuthentication();
 app.UseAuthorization();
 // map attribute-routed controllers

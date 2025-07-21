@@ -1,0 +1,8 @@
+<div class="login-container">
+	<h2>Iniciar Sesión</h2>
+	<form [formGroup]="form">
+		<input type="text" placeholder="Usuario" formControlName="usuario" required />
+		<input type="password" placeholder="Contraseña" formControlName="password" required />
+		<button type="submit" (click)="onSubmit()">Entrar</button>
+	</form>
+</div>

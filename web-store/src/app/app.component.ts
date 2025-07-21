@@ -1,12 +1,24 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+// Ensure RouterOutlet, RouterLink, and RouterLinkActive are imported
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Needed for standalone components
+import { AuthService } from './services/auth.service';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+    imports: [
+    RouterOutlet,       // Required for <router-outlet>
+    RouterLink,         // Required for routerLink directive
+    RouterLinkActive,   // <--- THIS IS CRUCIAL: Required for routerLinkActive and its options
+    CommonModule        // General Angular directives (e.g., *ngIf, *ngFor)
+  ],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+   constructor(public authService: AuthService) {}  
   title = 'web-store';
 }
