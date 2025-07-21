@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 
@@ -16,6 +16,13 @@ interface User {
 })
 export class AuthService {
   private apiUrl = 'http://localhost/api/auth/login';
+    private loginStatus$ = new BehaviorSubject<boolean>(this.isLoggedIn());
+
+  // expose observable to subscribers
+  get isLoggedIn$() {
+    return this.loginStatus$.asObservable();
+  }
+
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) { }
   /**

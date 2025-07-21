@@ -13,7 +13,8 @@ import { LayoutComponent } from './components/layout/layout.component'; // <--- 
     RouterOutlet,       // Required for <router-outlet>
     RouterLink,         // Required for routerLink directive
     RouterLinkActive,   // <--- THIS IS CRUCIAL: Required for routerLinkActive and its options
-    CommonModule        // General Angular directives (e.g., *ngIf, *ngFor)
+    CommonModule   ,
+    LayoutComponent     // General Angular directives (e.g., *ngIf, *ngFor)
   ],
 
   templateUrl: './app.component.html',
@@ -22,4 +23,16 @@ import { LayoutComponent } from './components/layout/layout.component'; // <--- 
 export class AppComponent {
    constructor(public authService: AuthService) {}  
   title = 'web-store';
+
+  isLoggedIn: boolean=true;
+
+ngOnInit() {
+    this.authService.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+  }
+
+  logado(): boolean{
+    return this.authService.isLoggedIn();
+  }
 }

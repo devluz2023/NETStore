@@ -4,11 +4,14 @@ import { ProductFormComponent } from './components/product-form/product-form.com
 import { authGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
+  { path: 'home', component: HomeComponent },
   { path: 'products', component: ProductListComponent, canActivate: [authGuard] },
-  { path: 'add', component: ProductFormComponent, canActivate: [authGuard] }, // add guard if needed
+  { path: 'add', component: ProductFormComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
+  { path: 'add/:id', component: ProductFormComponent, canActivate: [authGuard] },
   { path: 'layout', component: LayoutComponent,
     children:[
       {

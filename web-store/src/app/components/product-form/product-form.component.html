@@ -1,1 +1,38 @@
-<p>product-form works!</p>
+<form (ngSubmit)="saveProduct()" #productForm="ngForm">
+  <div>
+    <label>Title:</label>
+    <input [(ngModel)]="productData.title" name="title" required />
+  </div>
+  
+  <div>
+    <label>Price:</label>
+    <input [(ngModel)]="productData.price" name="price" type="number" step="0.01" required />
+  </div>
+
+  <div>
+    <label>Description:</label>
+    <textarea [(ngModel)]="productData.description" name="description"></textarea>
+  </div>
+
+  <div>
+    <label>Category:</label>
+    <input [(ngModel)]="productData.category" name="category" />
+  </div>
+
+  <div>
+    <label>Image URL:</label>
+    <input [(ngModel)]="productData.image" name="image" />
+  </div>
+
+  <div>
+    <label>Rating Rate:</label>
+    <input [(ngModel)]="productData.rating.rate" name="ratingRate" type="number" step="0.1" />
+  </div>
+
+  <div>
+    <label>Rating Count:</label>
+    <input [(ngModel)]="productData.rating.count" name="ratingCount" type="number" />
+  </div>
+
+  <button type="submit">Save</button>
+</form>
