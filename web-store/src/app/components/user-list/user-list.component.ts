@@ -62,7 +62,7 @@ export class UserListComponent {
 
   editUser(user: User) {
 
-    this.router.navigate(['/add', user.id]);
+    this.router.navigate(['/adduser', user.id]);
   }
 
   onPageChange(event: any) {
