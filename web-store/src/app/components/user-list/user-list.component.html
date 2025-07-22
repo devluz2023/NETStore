@@ -1,71 +1,69 @@
-
-
 <mat-card>
   <mat-card-title>Lista de Usuarios</mat-card-title>
 
-<ng-container *ngIf="Users.length > 0; else noData">
-  <table mat-table [dataSource]="Users" class="mat-elevation-z8">
+  <ng-container *ngIf="Users.length > 0; else noData">
+    <table mat-table [dataSource]="Users" class="mat-elevation-z8">
 
 
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let user">{{ user.id }}</td>
-    </ng-container>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+      </ng-container>
 
 
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let user">{{ user.email }}</td>
-    </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+      </ng-container>
 
 
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef>Usuario</th>
-      <td mat-cell *matCellDef="let user">{{ user.username }}</td>
-    </ng-container>
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Usuario</th>
+        <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+      </ng-container>
 
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Nome</th>
-      <td mat-cell *matCellDef="let user">{{ user.name.firstname }} {{ user.name.lastname }}</td>
-    </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nome</th>
+        <td mat-cell *matCellDef="let user">{{ user.name.firstname }} {{ user.name.lastname }}</td>
+      </ng-container>
 
 
-    <ng-container matColumnDef="phone">
-      <th mat-header-cell *matHeaderCellDef>Telefone</th>
-      <td mat-cell *matCellDef="let user">{{ user.phone }}</td>
-    </ng-container>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Telefone</th>
+        <td mat-cell *matCellDef="let user">{{ user.phone }}</td>
+      </ng-container>
 
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Estado</th>
-      <td mat-cell *matCellDef="let user">{{ user.status }}</td>
-    </ng-container>
-
-   
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef>Rol</th>
-      <td mat-cell *matCellDef="let user">{{ user.role }}</td>
-    </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let user">{{ user.status }}</td>
+      </ng-container>
 
 
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let user">
-        <a mat-button color="primary" (click)="editUser(user)">Editar</a>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Rol</th>
+        <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let user">
+          <a mat-button color="primary" (click)="editUser(user)">Editar</a>
           <a mat-button color="warn" (click)="deleteUser(user)">Excluir</a>
-      </td>
-    </ng-container>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</ng-container>
-<mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
-  (page)="onPageChange($event)">
-</mat-paginator>
-<ng-template #noData>
-  <p>Sem usuarios para mostrar.</p>
-</ng-template>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </ng-container>
+  <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+  <ng-template #noData>
+    <p>Sem usuarios para mostrar.</p>
+  </ng-template>
 
 </mat-card>

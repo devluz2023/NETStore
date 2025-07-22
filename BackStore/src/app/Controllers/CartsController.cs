@@ -1,292 +1,159 @@
+// MyApi.Controllers/CartsController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MyApi.Data;
+using MongoDB.Driver;
 using MyApi.Models;
-using System; // Required for DateTime
-using System.Text.Json.Serialization; // Required for [JsonIgnore]
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+
+using MongoDB.Driver.Linq; 
+
+
+using System.Linq; 
+using System.Threading.Tasks;
+
 
 namespace MyApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CartController : ControllerBase
+    public class CartsController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly MongoDbContext _mongoContext;
 
-        public CartController(MyDbContext context)
+        public CartsController(MongoDbContext mongoContext)
         {
-            _context = context;
+            _mongoContext = mongoContext;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+      
+        [HttpGet]
+        public async Task<IActionResult> GetCarts([FromQuery] int _page = 1, [FromQuery] int _size = 10, [FromQuery] string _order = null)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
-                return NotFound();
+            var queryable = _mongoContext.Carts.AsQueryable();
 
+            // Sorting
+            if (!string.IsNullOrEmpty(_order))
+            {
+                var orderParts = _order.Split(',');
+                foreach (var part in orderParts)
+                {
+                    var fieldAndDirection = part.Trim().Split(' ');
+                    var field = fieldAndDirection[0].ToLower();
+                    var direction = fieldAndDirection.Length > 1 && fieldAndDirection[1].ToLower() == "desc" ? -1 : 1;
+
+                    switch (field)
+                    {
+                        case "id":
+                            queryable = direction == -1 ? queryable.OrderByDescending(c => c.Id) : queryable.OrderBy(c => c.Id);
+                            break;
+                        case "userid":
+                            queryable = direction == -1 ? queryable.OrderByDescending(c => c.UserId) : queryable.OrderBy(c => c.UserId);
+                            break;
+                        case "date":
+                            queryable = direction == -1 ? queryable.OrderByDescending(c => c.Date) : queryable.OrderBy(c => c.Date);
+                            break;
+                        default:
+                            // Optionally handle unknown fields or apply a default sort
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                queryable = queryable.OrderBy(c => c.Id); 
+            }
+
+            var totalItems = await _mongoContext.Carts.CountDocumentsAsync(_ => true);
+            var totalPages = (int)Math.Ceiling(totalItems / (double)_size);
+
+
+            var carts = await queryable
+                                .Skip((_page - 1) * _size)
+                                .Take(_size) 
+                                .ToListAsync();
+
+
+            return Ok(new
+            {
+                data = carts,
+                totalItems,
+                currentPage = _page,
+                totalPages
+            });
+        }
+
+   
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            var cart = await _mongoContext.Carts.Find(c => c.Id == id).FirstOrDefaultAsync();
+            if (cart == null)
+                return NotFound(new { message = "Cart not found" });
             return Ok(cart);
         }
 
-
-
+  
         [HttpPost]
-        public async Task<IActionResult> CreateCart([FromBody] Cart cart)
+        public async Task<IActionResult> Create([FromBody] CreateCartDto input)
         {
-
-            if (cart == null)
+            var cart = new Cart
             {
-                return BadRequest("Cart data is null.");
-            }
-
-            if (cart.Date.Kind == DateTimeKind.Unspecified || cart.Date.Kind == DateTimeKind.Local)
-            {
-                cart.Date = cart.Date.ToUniversalTime();
-            }
-
-
-            var productsToProcess = cart.Products.ToList();
-            cart.Products.Clear();
-
-            _context.Carts.Add(cart);
-            await _context.SaveChangesAsync();
-
-
-            if (productsToProcess != null && productsToProcess.Any())
-            {
-                foreach (var product in productsToProcess)
+                UserId = input.UserId,
+                Date = input.Date.ToUniversalTime(),
+                Products = input.Products.Select(p => new CartProduct
                 {
+                    ProductId = p.ProductId,
+                    Quantity = p.Quantity
+                }).ToList()
+            };
 
-                    if (product.Id > 0)
-                    {
-                        var existingProduct = await _context.Products.FindAsync(product.Id);
-                        if (existingProduct != null)
-                        {
-                            existingProduct.CartId = cart.Id;
-                            _context.Products.Update(existingProduct);
-                        }
-                        else
-                        {
+            await _mongoContext.Carts.InsertOneAsync(cart);
 
-                            product.CartId = cart.Id;
-                            _context.Products.Add(product);
-                        }
-                    }
-                    else
-                    {
-                        product.CartId = cart.Id;
-                        _context.Products.Add(product);
-                    }
-                }
-                await _context.SaveChangesAsync(); // Save changes for products
-            }
-
-            // After SaveChangesAsync, cart.Id will be populated with the database-generated ID
-            // Using nameof(GetCart) as that's the name of the GET method in this controller.
-            // Reload the cart with its products to ensure the response includes them
-            // as they were processed in a separate SaveChangesAsync call.
-            var createdCart = await _context.Carts
-                                            .Include(c => c.Products)
-                                            .FirstOrDefaultAsync(c => c.Id == cart.Id);
-
-            return CreatedAtAction(nameof(GetById), new { id = createdCart.Id }, createdCart);
-
+            return CreatedAtAction(nameof(GetById), new { id = cart.Id }, cart);
         }
 
-
-   [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cart>>> GetPaginatedCarts(
-            [FromQuery(Name = "_page")] int page = 1,
-            [FromQuery(Name = "_size")] int size = 10,
-            [FromQuery(Name = "_order")] string order = null)
-        {
-            // Ensure page and size are positive
-            if (page < 1) page = 1;
-            if (size < 1) size = 10;
-
-            IQueryable<Cart> query = _context.Carts.Include(c => c.Products); // Include products by default
-
-            // Apply ordering if specified
-            if (!string.IsNullOrEmpty(order))
-            {
-                // Simple ordering based on a property name (e.g., "date", "-date" for descending)
-                switch (order.ToLower())
-                {
-                    case "date":
-                        query = query.OrderBy(c => c.Date);
-                        break;
-                    case "-date":
-                        query = query.OrderByDescending(c => c.Date);
-                        break;
-                    // Add more ordering options as needed, e.g., by cart ID
-                    case "id":
-                        query = query.OrderBy(c => c.Id);
-                        break;
-                    case "-id":
-                        query = query.OrderByDescending(c => c.Id);
-                        break;
-                    default:
-                        // Default ordering if 'order' is not recognized
-                        query = query.OrderBy(c => c.Id);
-                        break;
-                }
-            }
-            else
-            {
-                // Default ordering if no order parameter is provided
-                query = query.OrderBy(c => c.Id);
-            }
-
-            // Apply pagination
-            var carts = await query
-                .Skip((page - 1) * size)
-                .Take(size)
-                .ToListAsync();
-
-            if (carts == null || !carts.Any())
-            {
-                return NotFound("No carts found for the given pagination criteria.");
-            }
-
-            // You might want to add pagination metadata to the response headers
-            // For example: X-Total-Count, X-Total-Pages, etc.
-            // This requires getting the total count before applying Skip/Take.
-            // var totalCount = await _context.Carts.CountAsync();
-            // Response.Headers.Add("X-Total-Count", totalCount.ToString());
-
-            return Ok(carts);
-        }
-        
-
+      
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCart(int id, [FromBody] Cart updatedCart)
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateCartDto input)
         {
-            // 1. Validate input
-            if (updatedCart == null || id != updatedCart.Id)
-            {
-                return BadRequest("Cart ID mismatch or invalid cart data.");
-            }
-
-            // 2. Find the existing cart in the database
-            var existingCart = await _context.Carts
-                                             .Include(c => c.Products) // Eagerly load products for update logic
-                                             .FirstOrDefaultAsync(c => c.Id == id);
-
+            var existingCart = await _mongoContext.Carts.Find(c => c.Id == id).FirstOrDefaultAsync();
             if (existingCart == null)
+                return NotFound(new { message = "Cart not found" });
+
+            existingCart.UserId = input.UserId;
+            existingCart.Date = input.Date.ToUniversalTime(); 
+
+       
+            existingCart.Products.Clear(); 
+            existingCart.Products.AddRange(input.Products.Select(p => new CartProduct
             {
-                return NotFound($"Cart with ID {id} not found.");
+                ProductId = p.ProductId,
+                Quantity = p.Quantity
+            }));
+
+            var result = await _mongoContext.Carts.ReplaceOneAsync(c => c.Id == id, existingCart);
+
+            if (result.ModifiedCount == 0)
+            {
+                return StatusCode(500, new { message = "Failed to update cart or no changes were made." });
             }
 
-            // 3. Update scalar properties of the existing cart
-            // IMPORTANT: Ensure the DateTime Kind is UTC before saving to PostgreSQL
-            if (updatedCart.Date.Kind == DateTimeKind.Unspecified || updatedCart.Date.Kind == DateTimeKind.Local)
-            {
-                existingCart.Date = updatedCart.Date.ToUniversalTime();
-            }
-            else
-            {
-                existingCart.Date = updatedCart.Date;
-            }
-
-            // 4. Handle product collection updates
-            // Get current product IDs in the cart
-            var currentProductIds = existingCart.Products.Select(p => p.Id).ToList();
-            // Get incoming product IDs from the updated cart payload
-            var incomingProductIds = updatedCart.Products.Select(p => p.Id).ToList();
-
-            // Products to remove from the cart (those in current but not in incoming)
-            var productsToRemoveIds = currentProductIds.Except(incomingProductIds).ToList();
-            foreach (var productIdToRemove in productsToRemoveIds)
-            {
-                var productToRemove = existingCart.Products.FirstOrDefault(p => p.Id == productIdToRemove);
-                if (productToRemove != null)
-                {
-                    productToRemove.CartId = null; // Disassociate product from this cart
-                    _context.Products.Update(productToRemove);
-                }
-            }
-
-            // Products to add/associate with the cart (those in incoming but not in current)
-            foreach (var incomingProduct in updatedCart.Products)
-            {
-                if (!currentProductIds.Contains(incomingProduct.Id))
-                {
-                    // This product is new to this cart
-                    var productToAssociate = await _context.Products.FindAsync(incomingProduct.Id);
-                    if (productToAssociate != null)
-                    {
-                        // Associate existing product
-                        productToAssociate.CartId = existingCart.Id;
-                        _context.Products.Update(productToAssociate);
-                    }
-                    else
-                    {
-                        // If product doesn't exist, you might want to create it or return an error.
-                        // For now, if ID is 0, we assume it's a new product to be created.
-                        // If ID > 0 and not found, it's an invalid ID, handle as appropriate.
-                        if (incomingProduct.Id == 0)
-                        {
-                            incomingProduct.CartId = existingCart.Id;
-                            _context.Products.Add(incomingProduct);
-                        }
-                        else
-                        {
-                            // Log or return error for invalid product ID in payload
-                            return BadRequest($"Product with ID {incomingProduct.Id} not found and cannot be associated.");
-                        }
-                    }
-                }
-                // If the product already exists in the cart, no action is needed here
-                // unless you have other properties on the Product that need updating
-                // from the payload (e.g., if Product was an owned entity or a complex type).
-                // For this one-to-many, we're only managing the CartId.
-            }
-
-            // Mark the cart itself as modified (for its scalar properties like Date)
-            _context.Entry(existingCart).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CartExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw; // Re-throw if it's a different concurrency issue
-                }
-            }
-
-            // Reload the updated cart with its products to ensure the response includes them
-            var resultCart = await _context.Carts
-                                          .Include(c => c.Products)
-                                          .FirstOrDefaultAsync(c => c.Id == id);
-
-            return Ok(resultCart); // Return the updated cart
+            return Ok(existingCart);
         }
 
-        // Helper method to check if a cart exists (for concurrency handling)
-        private bool CartExists(int id)
-        {
-            return _context.Carts.Any(e => e.Id == id);
-        }
-
+  
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCart(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
-                return NotFound();
+            var result = await _mongoContext.Carts.DeleteOneAsync(c => c.Id == id);
 
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
+            if (result.DeletedCount == 0)
+                return NotFound(new { message = "Cart not found" });
+
             return Ok(new { message = "Cart deleted successfully" });
         }
-
-
     }
 }

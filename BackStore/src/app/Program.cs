@@ -30,6 +30,13 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+var mongoConnectionString = builder.Configuration.GetConnectionString("MongoDb")
+    ?? throw new InvalidOperationException("MongoDB connection string 'MongoDb' is not configured in appsettings.json");
+var mongoDatabaseName = "MyDatabase"; 
+
+
+builder.Services.AddSingleton(new MongoDbContext(mongoConnectionString, mongoDatabaseName));
+
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
 

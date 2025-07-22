@@ -1,22 +1,16 @@
 <mat-card>
   <mat-card-title>{{ isEditMode ? 'Editar Cart' : 'Novo Cart' }}</mat-card-title>
 
-  <form
-    (ngSubmit)="saveCart()"
- #userForm="ngForm" class="form-container"   style="width: 100%; max-width: 800px; margin: 20px auto; display: flex; flex-direction: column; gap: 16px;">
-    
-    <!-- ID de usuário (pode ser oculto ou select, dependendo do seu cenário) -->
-    <!-- Se desejar, adiciono aqui -->
+  <form (ngSubmit)="saveCart()" #userForm="ngForm" class="form-container"
+    style="width: 100%; max-width: 800px; margin: 20px auto; display: flex; flex-direction: column; gap: 16px;">
 
-    <!-- Data -->
+
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Fecha:</mat-label>
       <input matInput [(ngModel)]="cartData.date" name="date" type="date" required />
     </mat-form-field>
 
-    <!-- Produtos (Select múltiplo) -->
 
-    <!-- Botão salvar -->
     <div style="text-align: center; margin-top: 20px;">
       <button mat-raised-button color="primary" type="submit">
         {{ isEditMode ? 'Salvar Alterações' : 'Criar Novo' }}

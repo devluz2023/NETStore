@@ -18,6 +18,18 @@ services:
     expose:
       - 3306
 
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mydatabase
+      MONGO_INITDB_ROOT_PASSWORD: mydatabase
+
   postgres:
     image: postgres:15
     container_name: my_postgres
@@ -40,6 +52,7 @@ services:
 volumes:
   db-data:
   pgdata:
+  mongodbdata:
 secrets:
   db-password:
     file: db/password.txt

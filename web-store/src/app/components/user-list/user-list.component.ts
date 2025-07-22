@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/users';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-user-list',
   imports: [CommonModule, MatSlideToggleModule, MatTableModule, MatCardModule,
-   MatButtonModule, MatPaginatorModule, MatToolbarModule],
+    MatButtonModule, MatPaginatorModule, MatToolbarModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
 })
@@ -46,7 +46,7 @@ export class UserListComponent {
     this.userService.getUsers(this.currentPage, this.pageSize).subscribe(res => {
       this.Users = res.data;
       this.dataSource.data = this.Users;
-      this.totalItems = res.totalItems; 
+      this.totalItems = res.totalItems;
     });
   }
 

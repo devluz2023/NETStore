@@ -7,14 +7,14 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.18);
   color: #fff;
-  width: 100%; /* full width of parent, can set max-width for limit if needed */
-  max-width: 400px; /* optional: limit max width for better appearance */
-  margin: 0 auto; /* Center horizontally inside parent */
-  height:20vh; /* Make it take full viewport height */
-  display: flex; /* Enable Flexbox */
-  justify-content: center; /* Center content horizontally if needed */
-  align-items: center; /* Center content vertically */
-  flex-direction: column; /* Stack children vertically if needed */
+  width: 100%; 
+  max-width: 400px; 
+  margin: 0 auto; 
+  height:20vh;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  flex-direction: column; 
   text-align: center;
   animation: fadeIn 1s ease-out forwards;
 }

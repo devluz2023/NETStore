@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Required for *ngIf
-import { RouterModule, Router } from '@angular/router'; // Required for routerLink, router-outlet, and Router for navigation
-import { AuthService } from '../../services/auth.service'; // Adjust path as needed
-
+import { CommonModule } from '@angular/common'; 
+import { RouterModule, Router } from '@angular/router'; 
+import { AuthService } from '../../services/auth.service'; 
 @Component({
   selector: 'app-layout',
   standalone: true,
@@ -14,7 +13,7 @@ import { AuthService } from '../../services/auth.service'; // Adjust path as nee
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
-  // Property to hold the login status
+
   isUserLoggedIn: boolean = false;
 
   constructor(

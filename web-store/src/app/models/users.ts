@@ -17,10 +17,10 @@ export interface Name {
 }
 
 export interface User {
-  id?: number; // optional for new users
+  id?: number;
   email: string;
   username: string;
-  password?: string; // optional on get
+  password?: string;
   name: Name;
   address: Address;
   phone: string;

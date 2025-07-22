@@ -54,7 +54,7 @@ products: Product[] = [];
   }
 
     editProduct(produto:Product) {
-    // Aquí navegas a la vista del formulario de edición
+ 
     this.router.navigate(['/add', produto.id]);
   }
 

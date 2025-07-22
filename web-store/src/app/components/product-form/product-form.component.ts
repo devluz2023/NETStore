@@ -57,22 +57,22 @@ export class ProductFormComponent {
   loadProduct(id: number) {
     this.http.get(`http://localhost:80/api/products/${id}`)
       .subscribe(data => {
-        this.productData = data; // populate form
+        this.productData = data; 
       });
   }
 
   saveProduct() {
     if (this.isEditMode && this.productId != null) {
-      // update
+
       this.http.put(`http://localhost:80/api/products/${this.productId}`, this.productData)
         .subscribe(response => {
-          // handle success, maybe navigate away
+      
         });
     } else {
-      // create new
+
       this.http.post(`http://localhost:80/api/products`, this.productData)
         .subscribe(response => {
-          // handle success, maybe navigate away
+        
         });
     }
 

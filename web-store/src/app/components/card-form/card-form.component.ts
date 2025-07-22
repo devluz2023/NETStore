@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-form',
- imports: [FormsModule, CommonModule, MatInputModule,
+  imports: [FormsModule, CommonModule, MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
     MatSelectModule,
@@ -22,8 +22,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CardFormComponent {
 
-   cartId: number | null = null;
-  cartData: any = {}; // Puedes definir una interfaz específica
+  cartId: number | null = null;
+  cartData: any = {};
 
   isEditMode: boolean = false;
 
@@ -33,11 +33,11 @@ export class CardFormComponent {
     private router: Router
   ) { }
   allProducts = [
-  { id: 1, name: 'Producto 1' },
-  { id: 2, name: 'Producto 2' },
-  // Agrega los productos que quieras mostrar
-];
- ngOnInit() {
+    { id: 1, name: 'Producto 1' },
+    { id: 2, name: 'Producto 2' },
+
+  ];
+  ngOnInit() {
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.cartId = +params['id'];
@@ -49,7 +49,7 @@ export class CardFormComponent {
         // datos iniciales
         this.cartData = {
           userId: null,
-          date: new Date().toISOString().slice(0,10), // Fecha actual en formato ISO (solo fecha)
+          date: new Date().toISOString().slice(0, 10),
           products: []
         };
       }
@@ -60,7 +60,7 @@ export class CardFormComponent {
   loadCart(id: number) {
     this.http.get(`http://localhost:80/api/cart/${id}`)
       .subscribe(data => {
-        this.cartData = data; // populate form
+        this.cartData = data;
       });
   }
 
@@ -72,10 +72,10 @@ export class CardFormComponent {
           // handle success, maybe navigate away
         });
     } else {
-      // create new
+
       this.http.post(`http://localhost:80/api/cart`, this.cartData)
         .subscribe(response => {
-          // handle success, maybe navigate away
+
         });
     }
 

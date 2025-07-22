@@ -38,7 +38,7 @@ export const routes: Routes = [
 
   { path: '', redirectTo: '/products', pathMatch: 'full' },
 
-  // Catch-all redirect
+
   { path: '**', redirectTo: 'login', pathMatch: 'full' }
 
 ];

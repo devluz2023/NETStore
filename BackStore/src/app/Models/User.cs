@@ -23,8 +23,8 @@ namespace MyApi.Models
         public Name Name { get; set; }
         public Address Address { get; set; }
         public string Phone { get; set; }
-        public string Status { get; set; }  // Enum as string: Active, Inactive, Suspended
-        // public string Role { get; set; }    // Enum as string: Customer, Manager, Admin
+        public string Status { get; set; } 
+        // public string Role { get; set; }   
     }
 
     public class Name

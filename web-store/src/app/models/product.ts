@@ -3,7 +3,7 @@ export interface Rating {
   count: number;
 }
 export interface Product {
-  id?: number; // optional for new products
+  id?: number;
   title: string;
   price: number;
   description: string;

@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [FormsModule, CommonModule,  MatInputModule,
+  imports: [FormsModule, CommonModule, MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
     MatSelectModule,
@@ -22,7 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class UserFormComponent implements OnInit {
   userId: number | null = null;
-  userData: any = {}; // Puedes definir una interfaz específica
+  userData: any = {};
 
   isEditMode: boolean = false;
 
@@ -40,7 +40,7 @@ export class UserFormComponent implements OnInit {
       } else {
         this.userId = null;
         this.isEditMode = false;
-        // Datos iniciales vacíos
+
         this.userData = {
           email: '',
           username: '',
@@ -64,7 +64,7 @@ export class UserFormComponent implements OnInit {
   loadUser(id: number) {
     this.http.get(`http://localhost:80/api/users/${id}`)
       .subscribe(data => {
-        this.userData = data; // populate form
+        this.userData = data;
       });
   }
 
@@ -73,13 +73,13 @@ export class UserFormComponent implements OnInit {
       // update
       this.http.put(`http://localhost:80/api/users/${this.userId}`, this.userData)
         .subscribe(response => {
-          // handle success, maybe navigate away
+
         });
     } else {
       // create new
       this.http.post(`http://localhost:80/api/users`, this.userData)
         .subscribe(response => {
-          // handle success, maybe navigate away
+
         });
     }
 

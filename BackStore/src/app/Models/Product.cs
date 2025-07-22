@@ -13,10 +13,7 @@ namespace MyApi.Models
         public Rating Rating { get; set; }
 
 
-        public int? CartId { get; set; }
-
-        [JsonIgnore] // <--- THIS IS CRUCIAL: Add this attribute!
-        public Cart? Cart { get; set; }
+    
     }
 
 

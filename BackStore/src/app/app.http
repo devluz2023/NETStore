@@ -34,6 +34,12 @@ Accept: application/json
   }
 }
 
+
+###
+GET http://localhost:80/api/products/
+Content-Type: application/json
+Accept: application/json
+
 ###
 GET http://localhost:80/api/products/3
 Content-Type: application/json
@@ -50,7 +56,7 @@ GET http://localhost:80/api/products/categories
 ###
 GET http://localhost:80/api/products/category/Others
 ###
-DELETE  http://localhost:80/api/products/1
+DELETE  http://localhost:80/api/products/3
 
 Content-Type: application/json
 Accept: application/json
@@ -85,80 +91,68 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJqb2huX2RvZSIsIm5iZiI6MTc1MzAyMDU2MCwiZXhwIjoxNzUzMDI0MTYwLCJpYXQiOjE3NTMwMjA1NjAsImF1ZCI6Ik15QXBpQXVkaWVuY2UifQ.wMA-mEwUMixd2Swk7LpgQN49pFKAP2t0O7dVPy43Evc
 
 
-
 ###
 
-GET http://localhost:80/api/cart
+
+### Carts
+### Get all carts (default pagination)
+GET http://localhost:80/api/carts
 Content-Type: application/json
 Accept: application/json
 
 ###
-
-GET http://localhost:80/api/cart?_page=1&_size=10&_order=id desc,id asc
-Content-Type: application/json
-Accept: application/json
-
-###
-POST http://localhost:80/api/cart
+POST http://localhost:80/api/carts
 Content-Type: application/json
 Accept: application/json
 
 {
-    
-  "date": "2025-07-19",
+  "userId": 1,
+  "date": "2025-07-22T20:03:00-03:00",
   "products": [
-{
-  "id": 6,
-  "title": "Updated Product Title atualizado",
-  "price": 150.00,
-  "description": "Updated desWcription",
-  "category": "New Category",
-  "image": "https://example.com/new-image.jpg",
-  "rating": {
-    "rate": 4.9,
-    "count": 20
-  }
-}
+    {
+      "productId": 101,
+      "quantity": 2
+    },
+    {
+      "productId": 102,
+      "quantity": 1
+    }
   ]
 }
 
-###
-GET http://localhost:80/api/cart?_page=1&_size=10&_order=date asc
-
-###
-GET http://localhost:80/api/cart/8
-###
-
-PUT http://localhost:80/api/cart/18
+### Get a specific cart by ID
+# REPLACE <YOUR_CART_ID_HERE> with an actual MongoDB ObjectId obtained from a POST request.
+GET http://localhost:80/api/carts/68801a3cde662d31931d38fe
 Content-Type: application/json
 Accept: application/json
 
+### Update a specific cart by ID
+# REPLACE <YOUR_CART_ID_HERE> with an actual MongoDB ObjectId.
+PUT http://localhost:80/api/carts/68801a3cde662d31931d38fe
+Content-Type: application/json
+Accept: application/json
 
 {
-    "id": 18,
-  "date": "2025-07-19",
+  "userId": 1,
+  "date": "2025-07-22T21:30:00-03:00",
   "products": [
-{
-  "id": 6,
-  "title": "Updated Product Tsitle atualizado",
-  "price": 150.00,
-  "description": "Updated desWcription",
-  "category": "New Category",
-  "image": "https://example.com/new-image.jpg",
-  "rating": {
-    "rate": 4.9,
-    "count": 20
-  }
-}
+    {
+      "productId": 101,
+      "quantity": 32
+    },
+    {
+      "productId": 103,
+      "quantity": 1
+    }
   ]
 }
 
-###
-DELETE http://localhost:80/api/cart/6
+### Delete a specific cart by ID
 
-{
-  "message": "Cart deleted successfully"
-}
+DELETE http://localhost:80/api/carts/68801a3cde662d31931d38fe
+Content-Type: application/json
+Accept: application/json
+
 
 ####
 POST http://localhost:80/api/users
@@ -218,6 +212,11 @@ Accept: application/json
   "status": "Active",
   "role": "Customer"
 }
+
+####
+GET http://localhost:80/api/users
+
+
 
 ####
 GET http://localhost:80/api/users/3
