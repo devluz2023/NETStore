@@ -1,0 +1,78 @@
+<h2>{{ isEditMode ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+<form (ngSubmit)="saveProduct()" #userForm="ngForm">
+  <!-- Email -->
+  <div>
+    <label>Email:</label>
+    <input [(ngModel)]="userData.email" name="email" required />
+  </div>
+  <!-- Username -->
+  <div>
+    <label>Usuario:</label>
+    <input [(ngModel)]="userData.username" name="username" required />
+  </div>
+  <!-- Password (only for new users) -->
+  <div *ngIf="!isEditMode">
+    <label>Contraseña:</label>
+    <input [(ngModel)]="userData.password" name="password" type="password" required />
+  </div>
+  <!-- Name -->
+  <h3>Nombre</h3>
+  <div>
+    <label>First Name:</label>
+    <input [(ngModel)]="userData.name.firstname" name="firstname" required />
+  </div>
+  <div>
+    <label>Last Name:</label>
+    <input [(ngModel)]="userData.name.lastname" name="lastname" required />
+  </div>
+  <!-- Address -->
+  <h3>Dirección</h3>
+  <div>
+    <label>Ciudad:</label>
+    <input [(ngModel)]="userData.address.city" name="city" required />
+  </div>
+  <div>
+    <label>Calle:</label>
+    <input [(ngModel)]="userData.address.street" name="street" required />
+  </div>
+  <div>
+    <label>Número:</label>
+    <input [(ngModel)]="userData.address.number" name="number" type="number" required />
+  </div>
+  <div>
+    <label>Código Postal:</label>
+    <input [(ngModel)]="userData.address.zipcode" name="zipcode" required />
+  </div>
+  <div>
+    <label>Latitud:</label>
+    <input [(ngModel)]="userData.address.geolocation.lat" name="lat" required />
+  </div>
+  <div>
+    <label>Longitud:</label>
+    <input [(ngModel)]="userData.address.geolocation.long" name="long" required />
+  </div>
+  <!-- Phone -->
+  <div>
+    <label>Teléfono:</label>
+    <input [(ngModel)]="userData.phone" name="phone" required />
+  </div>
+  <!-- Status -->
+  <div>
+    <label>Estado:</label>
+    <select [(ngModel)]="userData.status" name="status" required>
+      <option value="Active">Activo</option>
+      <option value="Inactive">Inactivo</option>
+      <option value="Suspended">Suspendido</option>
+    </select>
+  </div>
+  <!-- Role -->
+  <div>
+    <label>Rol:</label>
+    <select [(ngModel)]="userData.role" name="role" required>
+      <option value="Customer">Cliente</option>
+      <option value="Manager">Gerente</option>
+      <option value="Admin">Administrador</option>
+    </select>
+  </div>
+  <button type="submit">Save</button>
+</form>
