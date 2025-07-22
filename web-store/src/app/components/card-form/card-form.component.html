@@ -1,0 +1,21 @@
+<h2>{{ isEditMode ? 'Editar Carrito' : 'Nuevo Carrito' }}</h2>
+
+<form (ngSubmit)="saveCart()">
+  <!-- ID Usuario -->
+  
+
+  <!-- Fecha -->
+  <div>
+    <label>Fecha:</label>
+    <input
+ 
+      [(ngModel)]="cartData.date"
+      name="date"
+      required
+    />
+  </div>
+
+  <!-- Productos (select multiple) -->
+
+ <button type="submit">Save</button>
+</form>

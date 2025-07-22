@@ -84,9 +84,17 @@ Content-Type: application/json
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJqb2huX2RvZSIsIm5iZiI6MTc1MzAyMDU2MCwiZXhwIjoxNzUzMDI0MTYwLCJpYXQiOjE3NTMwMjA1NjAsImF1ZCI6Ik15QXBpQXVkaWVuY2UifQ.wMA-mEwUMixd2Swk7LpgQN49pFKAP2t0O7dVPy43Evc
 
+
+
 ###
 
-GET http://localhost:80/api/carts?_page=1&_size=10&_order=id desc,userId asc
+GET http://localhost:80/api/cart
+Content-Type: application/json
+Accept: application/json
+
+###
+
+GET http://localhost:80/api/cart?_page=1&_size=10&_order=id desc,id asc
 Content-Type: application/json
 Accept: application/json
 

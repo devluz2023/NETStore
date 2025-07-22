@@ -7,6 +7,8 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { CardFormComponent } from './components/card-form/card-form.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +17,12 @@ export const routes: Routes = [
   { path: 'users', component: UserListComponent, canActivate: [authGuard] },
   { path: 'adduser', component: UserFormComponent, canActivate: [authGuard] },
   { path: 'adduser/:id', component: UserFormComponent, canActivate: [authGuard] },
+
+
+  { path: 'carts', component: CardListComponent, canActivate: [authGuard] },
+  { path: 'addCart', component: CardFormComponent, canActivate: [authGuard] },
+  { path: 'addCart/:id', component:CardFormComponent, canActivate: [authGuard] },
+
 
   { path: 'login', component: LoginComponent },
   { path: 'add/:id', component: ProductFormComponent, canActivate: [authGuard] },

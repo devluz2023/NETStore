@@ -1,0 +1,30 @@
+<h2>Listado de Carritos</h2>
+
+<table *ngIf="carts.length > 0; else noData" border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Fecha</th>
+ 
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cart of carts">
+      <td>{{ cart.id }}</td>
+     
+      <td>{{ cart.date }}</td>
+  
+      <td>
+        <button (click)="editcard(cart)">Editar</button>
+        <button (click)="deletecard(cart)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #noData>
+  <p>No hay carritos para mostrar.</p>
+</ng-template>
+
+<!-- Paginación básica -->
