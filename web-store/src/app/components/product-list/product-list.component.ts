@@ -3,10 +3,17 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+ 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule],
+  imports: [CommonModule,  MatSlideToggleModule, MatTableModule, MatCardModule,
+   MatButtonModule, MatPaginatorModule, MatToolbarModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
@@ -16,6 +23,7 @@ products: Product[] = [];
   currentPage = 1;
   pageSize = 10;
   categories: string[] = [];
+  displayedColumns: string[] = ['id', 'title', 'price', 'description', 'category', 'actions'];
 
   constructor(private productService: ProductService,  private router: Router) {}
 
@@ -50,8 +58,9 @@ products: Product[] = [];
     this.router.navigate(['/add', produto.id]);
   }
 
-  changePage(page: number) {
-    this.currentPage = page;
+  onPageChange(event: any) {
+    this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
     this.loadProducts();
   }
 }
