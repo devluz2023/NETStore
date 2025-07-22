@@ -12,9 +12,13 @@ private apiUrl = 'http://localhost/api';
 
   constructor(private http: HttpClient) {}
 
-  getUsers(page: number = 1, size: number = 10): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users`, { params: { _page: String(page), _size: String(size) } });
-  }
+getUsers(page: number, size: number): Observable<any> {
+  const params = {
+    _page: page.toString(),
+    _size: size.toString(),
+  };
+  return this.http.get<{ data: User[], totalItems: number }>('http://localhost:80/api/users', { params });
+}
 
   getUser(id: number): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/users/${id}`);

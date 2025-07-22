@@ -167,7 +167,7 @@ Accept: application/json
 
 {
   "email": "john@example.com",
-  "username": "john_doe",
+  "username": "john_doe8",
   "password": "password123",
   "name": {
     "firstname": "John",
@@ -224,7 +224,7 @@ GET http://localhost:80/api/users/1
 
 
 ###
-GET http://localhost:80/api/users?_page=1&_size=10&_order=username asc
+GET http://localhost:80/api/users?_page=3&_size=10&_order=username asc
 
 ###
 DELETE http://localhost:80/api/users/1
