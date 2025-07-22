@@ -1,6 +1,7 @@
-<mat-toolbar color="primary">
-  <span class="title">Lista de Usuarios</span>
-</mat-toolbar>
+
+
+<mat-card>
+  <mat-card-title>Lista de Usuarios</mat-card-title>
 
 <ng-container *ngIf="Users.length > 0; else noData">
   <table mat-table [dataSource]="Users" class="mat-elevation-z8">
@@ -66,3 +67,5 @@
 <ng-template #noData>
   <p>Sem usuarios para mostrar.</p>
 </ng-template>
+
+</mat-card>

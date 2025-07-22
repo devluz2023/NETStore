@@ -9,10 +9,11 @@ import {MatButtonModule} from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-user-list',
-  imports: [CommonModule, MatSlideToggleModule, MatTableModule,
+  imports: [CommonModule, MatSlideToggleModule, MatTableModule, MatCardModule,
    MatButtonModule, MatPaginatorModule, MatToolbarModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
