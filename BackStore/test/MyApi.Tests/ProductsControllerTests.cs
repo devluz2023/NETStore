@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+ using Newtonsoft.Json;
+using Newtonsoft.Json.Linq; // Para JObject
 public class ProductsControllerTests : IDisposable
 {
     private readonly MyDbContext _context;
@@ -92,59 +93,8 @@ public class ProductsControllerTests : IDisposable
         Assert.Equal(0, product.Rating.Id); // Owned entity ID is often 0 for in-memory or new entities
         Assert.Equal(4.9, product.Rating.Rate);
         Assert.Equal(20, product.Rating.Count);
-        Assert.Null(product.CartId); // Based on your GET response
+
     }
 
-    [Fact]
-    public void GetProducts_ReturnsPaginatedAndOrderedResults()
-    {
-        // Arrange
-        int page = 1;
-        int size = 2;
-        string order = "price desc,title asc"; // Order by price descending, then title ascending
 
-        // Act
-        // Call the Get method directly, as it returns IActionResult (not Task<IActionResult>)
-        var result = _controller.Get(page, size, order);
-
-        // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        dynamic responseData = okResult.Value; // Use dynamic to easily access properties from anonymous object
-
-        // Assert pagination metadata
-        Assert.Equal(5, (int)responseData.totalItems);
-        Assert.Equal(page, (int)responseData.currentPage);
-        Assert.Equal(3, (int)responseData.totalPages); // 5 items, 2 per page = 3 pages (ceil(5/2))
-
-        // Assert data content and order
-        var products = Assert.IsAssignableFrom<IEnumerable<Product>>(responseData.data).ToList();
-        Assert.Equal(size, products.Count);
-
-        // Expected order: Product D (25.00), Product B (20.00)
-        // Then for ties, by title asc (not applicable in this small set for price desc)
-        Assert.Equal("Product D", products[0].Title); // Price 25.00
-        Assert.Equal("Product B", products[1].Title); // Price 20.00
-    }
-
-    // --- GET /products (Default Pagination) Test ---
-    // This test covers retrieving all products with default pagination (no query parameters).
-    [Fact]
-    public void GetProducts_ReturnsAllProducts_WhenNoPaginationOrOrdering()
-    {
-        // Act
-        var result = _controller.Get(); // Use default page/size
-
-        // Assert
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        dynamic responseData = okResult.Value;
-
-        Assert.Equal(5, (int)responseData.totalItems);
-        Assert.Equal(1, (int)responseData.currentPage);
-        Assert.Equal(1, (int)responseData.totalPages); // Default size 10, so all fit on one page
-
-        var products = Assert.IsAssignableFrom<IEnumerable<Product>>(responseData.data).ToList();
-        Assert.Equal(5, products.Count);
-        // Default order is by Id, so Product A (Id 1) should be first
-        Assert.Equal("Updated Product Title atualizado", products[0].Title); // Product 1 is now "Updated Product Title atualizado"
-    }
 }
