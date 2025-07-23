@@ -5,6 +5,8 @@ public class MongoDbContext
 {
     public IMongoCollection<Cart> Carts { get; }
     public IMongoCollection<Product> Products { get; }
+    
+     public IMongoCollection<Sale> Sales { get; }
 
     public MongoDbContext(string connectionString, string databaseName)
     {
@@ -13,5 +15,6 @@ public class MongoDbContext
 
         Carts = database.GetCollection<Cart>("Carts");
         Products = database.GetCollection<Product>("Products");
+        Sales = database.GetCollection<Sale>("Sales");
     }
 }

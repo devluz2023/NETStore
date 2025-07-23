@@ -5,7 +5,9 @@ using MyApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using MyApi.Services; 
+using MyApi.Services;
+using MyApi.Repositories;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,8 @@ builder.Services.AddCors(options =>
         });
 
 });
+
+
 
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,6 +74,10 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<ISaleRepository, MongoSaleRepository>();
+builder.Services.AddScoped<SaleService>(); // SaleService depends on ILogger, which is automatically injected
+
 
 var app = builder.Build();
 

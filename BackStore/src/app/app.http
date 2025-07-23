@@ -17,12 +17,12 @@ Accept: application/json
 }
 
 ###
-PUT  http://localhost/api/products/1
+PUT  http://localhost/api/products/33
 Content-Type: application/json
 Accept: application/json
 
 {
-  "id": 1,
+  "id": 33,
   "title": "Updated Product Title atualizado",
   "price": 150.00,
   "description": "Updated desWcription",
@@ -41,7 +41,7 @@ Content-Type: application/json
 Accept: application/json
 
 ###
-GET http://localhost:80/api/products/3
+GET http://localhost:80/api/products/33
 Content-Type: application/json
 Accept: application/json
 ###
@@ -56,7 +56,7 @@ GET http://localhost:80/api/products/categories
 ###
 GET http://localhost:80/api/products/category/Others
 ###
-DELETE  http://localhost:80/api/products/3
+DELETE  http://localhost:80/api/products/33
 
 Content-Type: application/json
 Accept: application/json
@@ -227,3 +227,106 @@ GET http://localhost:80/api/users?_page=3&_size=10&_order=username asc
 
 ###
 DELETE http://localhost:80/api/users/1
+
+
+
+GET http://localhost:80/api/sales
+Content-Type: application/json
+Accept: application/json
+
+GET http://localhost:80/api/sales?_page=1&_size=5
+Content-Type: application/json
+Accept: application/json
+
+
+GET http://localhost:80/api/sales?_page=1&_size=10&_order=date desc,totalSaleAmount asc
+Content-Type: application/json
+Accept: application/json
+
+
+POST http://localhost:80/api/sales
+Content-Type: application/json
+Accept: application/json
+
+{
+  "date": "2025-07-23T10:00:00Z",
+  "customer": {
+    "customerId": 101,
+    "customerName": "Alice Smith"
+  },
+  "branch": {
+    "branchId": 1,
+    "branchName": "Main Store"
+  },
+  "products": [
+    {
+      "productId": 1,
+      "productName": "Laptop Pro",
+      "quantity": 5,
+      "unitPrice": 1200.00
+    },
+    {
+      "productId": 2,
+      "productName": "Wireless Mouse",
+      "quantity": 15,
+      "unitPrice": 25.00
+    },
+    {
+      "productId": 3,
+      "productName": "Keyboard",
+      "quantity": 2,
+      "unitPrice": 75.00
+    }
+  ]
+}
+
+
+GET http://localhost:80/api/sales/68804415fd644ec1e88aa3a3
+Content-Type: application/json
+Accept: application/json
+
+
+PUT http://localhost:80/api/sales/68804415fd644ec1e88aa3a3
+Content-Type: application/json
+Accept: application/json
+
+{
+  "date": "2025-07-23T11:30:00Z",
+  "customer": {
+    "customerId": 101,
+    "customerName": "Alice Smith (Updated)"
+  },
+  "branch": {
+    "branchId": 1,
+    "branchName": "Main Store"
+  },
+  "products": [
+    {
+      "productId": 1,
+      "productName": "Laptop Pro",
+      "quantity": 4,
+      "unitPrice": 1200.00
+    },
+    {
+      "productId": 4,
+      "productName": "External Monitor",
+      "quantity": 8,
+      "unitPrice": 300.00
+    }
+  ]
+}
+
+
+PUT http://localhost:80/api/sales/68804415fd644ec1e88aa3a3/cancel
+Content-Type: application/json
+Accept: application/json
+
+
+PUT http://localhost:80/api/sales/68804415fd644ec1e88aa3a3/items/1/cancel
+Content-Type: application/json
+Accept: application/json
+
+
+DELETE http://localhost:80/api/sales/68804415fd644ec1e88aa3a3
+Content-Type: application/json
+Accept: application/json
